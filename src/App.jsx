@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react'
 import './App.css'
 import selfPic from './assets/SelfPic.jpeg'
+import emailjs from "@emailjs/browser";
+
+
 
 function App() {
   const [activeSection, setActiveSection] = useState('home')
@@ -51,13 +54,29 @@ function App() {
   }
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    // Create mailto link with form data
-    const subject = encodeURIComponent(`Contact from ${formData.name}`)
-    const body = encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`)
-    window.location.href = `mailto:kaleajinkya2005@gmail.com?subject=${subject}&body=${body}`
-    setFormData({ name: '', email: '', message: '' })
-  }
+    e.preventDefault();
+  
+    emailjs.send(
+      import.meta.env.VITE_EMAILJS_SERVICE_ID,
+      import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+      {
+        name: formData.name,
+        email: formData.email,
+        message: formData.message,
+      },
+      import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+    )
+    .then(() => {
+      alert("Message sent successfully!");
+      setFormData({ name: '', email: '', message: '' });
+    })
+    .catch((error) => {
+      console.error(error);
+      alert("Failed to send message. Please try again!");
+    });
+  };
+  
+  
 
   const skills = [
     { name: 'JavaScript', level: 85 },
