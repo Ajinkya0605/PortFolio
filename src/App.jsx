@@ -50,11 +50,22 @@ const ParallaxBackground = () => {
 function App() {
   const [activeSection, setActiveSection] = useState('home')
   const [isScrolled, setIsScrolled] = useState(false)
+  const [isDark, setIsDark] = useState(() => {
+    const saved = localStorage.getItem('theme')
+    return saved ? saved === 'dark' : true // default to dark
+  })
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     message: ''
   })
+
+  // Sync theme to <html> data-theme attribute
+  useEffect(() => {
+    const theme = isDark ? 'dark' : 'light'
+    document.documentElement.setAttribute('data-theme', theme)
+    localStorage.setItem('theme', theme)
+  }, [isDark])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -142,17 +153,29 @@ function App() {
   const projects = [
     {
       title: 'Morpheus Pod',
-      description: 'Developed a smart pillow system integrating ESP32, accelerometer, microphone, and heart rate sensors for real-time sleep stage monitoring using embedded TinyML models. Built a cross-platform React Native app with Bluetooth/WiFi connectivity.',
-      tech: ['Python', 'React Native', 'TinyML', 'REST API', 'Node.js'],
-      github: 'https://github.com/Ajinkya0605',
+      description: 'Developed a smart pillow system integrating ESP32, accelerometer, microphone, and heart rate sensors for real-time sleep stage monitoring using embedded TinyML models. Built a cross-platform React Native (Expo) app with TypeScript for Bluetooth/WiFi connectivity and live health data visualization.',
+      tech: ['TypeScript', 'React Native', 'Expo', 'TinyML', 'Node.js', 'REST API'],
+      github: 'https://github.com/Ajinkya0605/Morpheus_Pod_App',
       demo: '#'
     },
     {
       title: 'Helper-Hub',
-      description: 'Built an on-demand service booking app using React Native and MongoDB for real-time data management. Designed a user-friendly UI with seamless appointment scheduling for various home services.',
-      tech: ['React-Native', 'Node.js', 'MongoDB', 'APIs'],
-      github: 'https://github.com/Ajinkya0605',
+      description: 'Built a full-stack on-demand service booking platform with a React Native (Expo) mobile app and a Node.js/Express backend. Features real-time appointment scheduling, OTP-based authentication via Nodemailer, image uploads with ImageKit, and MongoDB for persistent data management.',
+      tech: ['React Native', 'Expo', 'Node.js', 'Express', 'MongoDB', 'ImageKit'],
+      github: 'https://github.com/Ajinkya0605/HelperHub',
       demo: '#'
+    },
+    {
+      title: 'Mojito Cocktail Landing Page',
+      description: 'Crafted an immersive cocktail landing page featuring cinematic GSAP scroll-triggered animations, smooth parallax effects, and a vibrant, dark-themed UI. Leveraged React with Vite for a lightning-fast build, delivering a premium interactive browsing experience for a fictional cocktail brand.',
+      tech: ['React', 'Vite', 'GSAP', 'ScrollTrigger', 'CSS', 'JavaScript'],
+      github: 'https://github.com/Ajinkya0605/gSAP_Cocktails'
+    },
+    {
+      title: 'Apple MacBook Landing Page',
+      description: 'Engineered a stunning Apple-inspired MacBook Pro product page featuring interactive 3D model rendering via Three.js & React Three Fiber, dynamic video textures synced to scroll position, cinematic GSAP ScrollTrigger animations, and global state management with Zustand. Fully responsive across all device sizes.',
+      tech: ['React', 'Three.js', 'React Three Fiber', 'GSAP', 'Zustand', 'Tailwind CSS'],
+      github: 'https://github.com/Ajinkya0605/gSAP_MacBook_LandingPage'
     }
   ]
 
@@ -196,6 +219,38 @@ function App() {
               onClick={(e) => { e.preventDefault(); scrollToSection('contact') }}
             >Contact</a></li>
           </ul>
+
+          {/* Theme Toggle */}
+          <button
+            id="theme-toggle-btn"
+            onClick={() => setIsDark(prev => !prev)}
+            aria-label={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+            style={{
+              background: 'none',
+              border: '1.5px solid transparent',
+              backgroundImage: 'linear-gradient(var(--bg-secondary, #1a1f3a), var(--bg-secondary, #1a1f3a)), linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+              backgroundOrigin: 'border-box',
+              backgroundClip: 'padding-box, border-box',
+              borderRadius: '50px',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              padding: '6px 14px',
+              fontSize: '0.8rem',
+              fontWeight: '600',
+              color: 'var(--text-secondary)',
+              transition: 'all 0.3s ease',
+              whiteSpace: 'nowrap',
+              marginLeft: '1rem',
+              fontFamily: 'inherit',
+            }}
+          >
+            <span style={{ fontSize: '1rem', lineHeight: 1 }}>
+              {isDark ? '☀️' : '🌙'}
+            </span>
+            <span>{isDark ? 'Light' : 'Dark'}</span>
+          </button>
         </div>
       </nav>
 
@@ -324,7 +379,7 @@ function App() {
                         <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
                       </svg>
                     </a>
-                    <a href={project.demo} target="_blank" rel="noopener noreferrer" aria-label="Live Demo">
+                    <a href={project.github} target="_blank" rel="noopener noreferrer" aria-label="View on GitHub">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                         <polyline points="15 3 21 3 21 9" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
