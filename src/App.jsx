@@ -5,7 +5,47 @@ import emailjs from "@emailjs/browser";
 import { Typewriter } from 'react-simple-typewriter'
 
 
+const ParallaxBackground = () => {
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
+  
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      // Calculate mouse position relative to center of screen
+      setMousePos({
+        x: (e.clientX / window.innerWidth - 0.5) * 40,
+        y: (e.clientY / window.innerHeight - 0.5) * 40
+      })
+    }
+    window.addEventListener('mousemove', handleMouseMove)
+    return () => window.removeEventListener('mousemove', handleMouseMove)
+  }, [])
 
+  const cards = [
+    { icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg', style: { top: '20%', left: '10%', width: '80px', height: '80px' }, depth: 1.5 },
+    { icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg', style: { top: '30%', right: '15%', width: '70px', height: '70px' }, depth: -1.2 },
+    { icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg', style: { bottom: '25%', left: '15%', width: '90px', height: '90px' }, depth: 2 },
+    { icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mongodb/mongodb-original.svg', style: { bottom: '20%', right: '10%', width: '85px', height: '85px' }, depth: -1.8 },
+    { icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg', style: { top: '50%', left: '5%', width: '60px', height: '60px' }, depth: 0.8 },
+    { icon: 'https://www.vectorlogo.zone/logos/sap/sap-icon.svg', style: { top: '60%', right: '5%', width: '65px', height: '65px' }, depth: 1.2 },
+  ]
+
+  return (
+    <div className="parallax-bg">
+      {cards.map((card, i) => (
+        <div 
+          key={i} 
+          className="parallax-card"
+          style={{
+            ...card.style,
+            transform: `translate(${mousePos.x * card.depth}px, ${mousePos.y * card.depth}px)`
+          }}
+        >
+          <img src={card.icon} alt="tech-icon" />
+        </div>
+      ))}
+    </div>
+  )
+}
 
 function App() {
   const [activeSection, setActiveSection] = useState('home')
@@ -88,14 +128,15 @@ function App() {
 
 
   const skills = [
-    { name: 'JavaScript', level: 85 },
-    { name: 'React', level: 80 },
-    { name: 'Python', level: 75 },
-    { name: 'Java', level: 75 },
-    { name: 'Node.js', level: 80 },
-    { name: 'HTML/CSS', level: 90 },
-    { name: 'Git', level: 85 },
-    { name: 'MongoDB', level: 75 },
+    { name: 'JavaScript', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg' },
+    { name: 'React', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg' },
+    { name: 'SAP ABAP', icon: 'https://www.vectorlogo.zone/logos/sap/sap-icon.svg' },
+    { name: 'Python', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg' },
+    { name: 'Java', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg' },
+    { name: 'Node.js', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg' },
+    { name: 'HTML/CSS', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg' },
+    { name: 'Git', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg' },
+    { name: 'MongoDB', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mongodb/mongodb-original.svg' },
   ]
 
   const projects = [
@@ -160,6 +201,7 @@ function App() {
 
       {/* Hero Section */}
       <section id="home" className="hero">
+        <ParallaxBackground />
         <div className="hero-content">
           <div className="hero-text">
             <p className="greeting">Hello, I'm</p>
@@ -248,17 +290,9 @@ function App() {
           </h2>
           <div className="skills-grid">
             {skills.map((skill, index) => (
-              <div key={index} className="skill-item">
-                <div className="skill-header">
-                  <span className="skill-name">{skill.name}</span>
-                  <span className="skill-percentage">{skill.level}%</span>
-                </div>
-                <div className="skill-bar">
-                  <div
-                    className="skill-progress"
-                    style={{ width: `${skill.level}%` }}
-                  ></div>
-                </div>
+              <div key={index} className="skill-item card">
+                <img src={skill.icon} alt={skill.name} className="skill-icon" />
+                <span className="skill-name">{skill.name}</span>
               </div>
             ))}
           </div>
