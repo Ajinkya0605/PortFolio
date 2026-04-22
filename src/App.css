@@ -104,7 +104,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 80px 2rem 2rem;
+  padding: 140px 2rem 2rem;
   position: relative;
   background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 30%, #0a0e27 60%, #1a1f3a 100%);
   background-size: 400% 400%;
@@ -112,9 +112,17 @@
 }
 
 @keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 .parallax-bg {
@@ -154,7 +162,8 @@
   .parallax-card {
     opacity: 0.4;
     transform: scale(0.6) !important;
-    transition: none; /* Disable expensive animations on mobile */
+    transition: none;
+    /* Disable expensive animations on mobile */
   }
 }
 
@@ -209,7 +218,7 @@
   display: flex;
   gap: 1.5rem;
   justify-content: center;
-  margin-bottom: 3rem;
+  margin-bottom: 6rem;
   flex-wrap: wrap;
 }
 
@@ -338,6 +347,7 @@
     opacity: 1;
     top: 8px;
   }
+
   100% {
     opacity: 0;
     top: 20px;
@@ -348,7 +358,8 @@
 section {
   padding: 6rem 0;
   position: relative;
-  scroll-margin-top: 80px; /* Account for fixed navbar */
+  scroll-margin-top: 80px;
+  /* Account for fixed navbar */
 }
 
 .section-title {
@@ -445,17 +456,13 @@ section {
   object-fit: cover;
   border: 3px solid transparent;
   background: linear-gradient(var(--bg-secondary), var(--bg-secondary)) padding-box,
-              var(--gradient-button) border-box;
+    var(--gradient-button) border-box;
   border-radius: 4px;
   position: relative;
   transition: transform 0.3s ease;
-  filter: grayscale(20%);
 }
 
-.profile-image:hover {
-  transform: translate(-5px, -5px);
-  filter: grayscale(0%);
-}
+
 
 .image-wrapper::after {
   content: '';
@@ -472,10 +479,7 @@ section {
   opacity: 0.5;
 }
 
-.image-wrapper:hover::after {
-  top: 15px;
-  left: 15px;
-}
+
 
 /* Skills Section */
 .skills {
@@ -533,6 +537,7 @@ section {
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -1122,7 +1127,8 @@ section {
 
   .form-group input,
   .form-group textarea {
-    font-size: 16px; /* Prevents zoom on iOS */
+    font-size: 16px;
+    /* Prevents zoom on iOS */
   }
 
   .section-title {
@@ -1230,7 +1236,8 @@ section {
   }
 
   section {
-    scroll-margin-top: 65px; /* Adjusted for smaller navbar on mobile */
+    scroll-margin-top: 65px;
+    /* Adjusted for smaller navbar on mobile */
   }
 
   .about-text p {
